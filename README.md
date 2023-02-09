@@ -24,7 +24,14 @@ Note: Make sure that you have the latest version of pip installed by running pip
 
 
 
-2. Set the path to Tesseract OCR in the script. If you are using Windows, uncomment the line pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe" and comment the line pytesseract.pytesseract.tesseract_cmd = r"/usr/bin/tesseract". If you are using Linux, uncomment the line pytesseract.pytesseract.tesseract_cmd = r"/usr/bin/tesseract" and comment the line pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe".
+2. Set the path to Tesseract OCR in the script. If you are using Windows, uncomment the line 
+```pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe" ``` 
+and comment the line 
+```pytesseract.pytesseract.tesseract_cmd = r"/usr/bin/tesseract" ```. 
+If you are using Linux, uncomment the line 
+```pytesseract.pytesseract.tesseract_cmd = r"/usr/bin/tesseract"``` 
+and comment the line 
+```pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe".```
 
 3. Replace the file name in the line image = cv2.imread('table.png') with the name of the image file you want to perform OCR on.
 
