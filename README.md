@@ -54,7 +54,7 @@ The script performs Optical Character Recognition (OCR) on an image file and con
        pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe".
 
 
-3. Replace the file name in the line image = cv2.imread('table.png') with the name of the image file you want to perform OCR on.
+3. Replace the file name in the line ```image = cv2.imread('table.png')``` with the name of the image file you want to perform OCR on.
 
 4. Run the script using a Python environment.
 
