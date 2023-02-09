@@ -11,6 +11,18 @@ The script performs Optical Character Recognition (OCR) on an image file and con
 
 **How to run the script**
 1. Install the required libraries: cv2, pyocr, pandas, and pytesseract.
+```
+sudo apt-get install python-opencv
+pip install pyocr
+pip install pandas
+sudo apt-get install tesseract-ocr
+pip install pytesseract
+```
+Note: Make sure that you have the latest version of pip installed by running pip install --upgrade pip before installing the libraries.
+
+
+
+
 
 2. Set the path to Tesseract OCR in the script. If you are using Windows, uncomment the line pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe" and comment the line pytesseract.pytesseract.tesseract_cmd = r"/usr/bin/tesseract". If you are using Linux, uncomment the line pytesseract.pytesseract.tesseract_cmd = r"/usr/bin/tesseract" and comment the line pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe".
 
