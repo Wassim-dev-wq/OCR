@@ -9,6 +9,19 @@ This script is written in Python and uses the following libraries:
 
 The script performs Optical Character Recognition (OCR) on an image file and converts it into a text format. The text is then split by line and stored in a pandas dataframe. Finally, the dataframe is saved as a CSV file.
 
+**How to create virtual environnement**
+1. Install virtualenv:
+    ```pip install virtualenv```
+2. Create a new virtual environment:
+    ```virtualenv myenv```
+    
+    This will create a new virtual environment named myenv in the current directory.
+
+2. Activate the virtual environment:
+    ```source myenv/bin/activate```
+    
+    Your shell prompt should change to indicate that you are now in the virtual environment.
+
 **How to run the script**
 1. Install the required libraries: cv2, pyocr, pandas, and pytesseract.
     ```
