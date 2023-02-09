@@ -1,4 +1,4 @@
-**Image to Text Conversion using OCR and Tesseract**
+# Image to Text Conversion using OCR and Tesseract
 
 This script is written in Python and uses the following libraries:
 
