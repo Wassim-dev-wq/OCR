@@ -50,7 +50,7 @@ def recognize_table_structure(img):
 
 
 # Load image file
-image_path = 'tables/table2.jpg'
+image_path = 'tables/table3.jpg'
 image = cv2.imread(image_path)
 
 recognize_table_structure(image)
