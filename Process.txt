@@ -1,0 +1,19 @@
+1.Preprocess the input image:
+    - Convert the image to grayscale.
+    - Apply thresholding to create a binary image.
+
+2.Recognize the table structure:
+    - Remove small contours from the binary image.
+    - Detect horizontal and vertical lines in the image.
+    - Combine the line-detected images.
+    - Erode and dilate the image to enhance the table structure.
+    - Extract contours and bounding boxes of table cells.
+    - Sort and organize the bounding boxes into rows and columns.
+    - Return the final table structure and a processed image containing the table.
+
+3.Extract text from the table image:
+    - Use Tesseract OCR to extract the text and layout information from the table image.
+
+4.Create a CSV file from the extracted text data:
+    - Reconstruct the table rows based on the extracted text and layout information.
+    - Write the reconstructed table to a CSV file.
