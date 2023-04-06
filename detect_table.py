@@ -1,1 +1,0 @@
-#To detect the table inside the image then process it

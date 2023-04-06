@@ -1,34 +1,24 @@
-import cv2
-import pandas as pd
 import pytesseract
+import pandas as pd
+from image_processing import preprocess_image, cv2_imshow
+from structure_recognition import recognize_structure
 
-# Set the path to tesseract
+# Set the path to the Tesseract executable
 pytesseract.pytesseract.tesseract_cmd = r"/usr/bin/tesseract" # for Linux
 
-# Load image file
-image = cv2.imread('table.png')
-if image is None:
-    print("Error: Image not found or loaded")
-else:
-    # Pre-process the image
-    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
-    # Perform OCR
-    text = pytesseract.image_to_string(gray)
+def main():
+    image_path = "tables/table5.jpg"
+    #output_csv_path = "output.csv"
 
-    # Split the text by line
-    lines = text.split('\n')
+    # Preprocess the image
+    preprocessed_image = preprocess_image(image_path)
 
-    # Define the delimiter for the data
-    delimiter = ' '
+    # Detect the table from the image
+    table_image = recognize_structure(preprocessed_image)
+    cv2_imshow("Table image:",table_image)
 
-    # Extract the data
-    data = []
-    for line in lines:
-        data.append(line.split(delimiter))
+    #print(f"CSV file generated: {output_csv_path}")
 
-    # Convert the extracted data to a pandas DataFrame
-    df = pd.DataFrame(data)
-
-    # Save the extracted data to a CSV file
-    df.to_csv('table.csv', index=False)
+if __name__ == "__main__":
+    main()
