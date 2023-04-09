@@ -3,9 +3,7 @@ import pandas as pd
 from image_processing import preprocess_image, cv2_imshow
 from structure_recognition import recognize_structure
 import cv2
-import numpy as np
-import pandas as pd
-import pytesseract as tess
+
 # Set the path to the Tesseract executable
 pytesseract.pytesseract.tesseract_cmd = r"/usr/bin/tesseract" # for Linux
 
