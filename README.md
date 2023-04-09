@@ -24,15 +24,9 @@ This script is written in Python and uses the following libraries:
 **How to run the script**
 1. Install the required libraries: cv2, pyocr, pandas, and pytesseract.
     ```
-    sudo apt-get install python-opencv
-    pip install pyocr
-    pip install pandas
-    sudo apt-get install tesseract-ocr
-    pip install pytesseract
+    pip install -r requirements.txt
     ```
-    Note: Make sure that you have the latest version of pip installed by running pip install --upgrade pip before installing the libraries.
-
-
+    
 2. Set the path to Tesseract OCR in the script. If you are using Windows, uncomment the line 
 
        pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"  
