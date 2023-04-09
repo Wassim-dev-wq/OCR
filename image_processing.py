@@ -39,12 +39,12 @@ def detect_lines(img_bin_inv, kernel_len_ver, kernel_len_hor):
     kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (2, 2))
 
     # Erode and dilate the image to get vertical lines
-    image_1 = cv2.erode(img_bin_inv, vertical_kernel,iterations=2)
-    vertical_lines = cv2.dilate(image_1, vertical_kernel, iterations=4)
+    img_eroded_vertical  = cv2.erode(img_bin_inv, vertical_kernel,iterations=3)
+    vertical_lines = cv2.dilate(img_eroded_vertical, vertical_kernel, iterations=5)
 
     # Erode and dilate the image to get horizontal lines
-    image_2 = cv2.erode(img_bin_inv, horizontal_kernel, iterations=2)
-    horizontal_lines = cv2.dilate(image_2, horizontal_kernel, iterations=5)
+    img_eroded_horizontal  = cv2.erode(img_bin_inv, horizontal_kernel, iterations=2)
+    horizontal_lines = cv2.dilate(img_eroded_horizontal, horizontal_kernel, iterations=3)
 
     # Combine vertical and horizontal lines
     img_vh = cv2.addWeighted(vertical_lines, 1, horizontal_lines, 1, 0.0)
@@ -88,7 +88,6 @@ def erode_dilate_images(img_median, img_h, img_w):
 
 # https://cvexplained.wordpress.com/2020/06/06/sorting-contours/
 # Sorting boxes
-'''
 def sort_contours(cnts, method="left-to-right"):
     # initialize the reverse flag and sort index
     reverse = False
@@ -111,9 +110,93 @@ def sort_contours(cnts, method="left-to-right"):
   
     # return the list of sorted contours and bounding boxes
     return (cnts, boundingBoxes)
-'''
 
 
 def get_contours_and_boxes(img_vh):
     contours, _ = cv2.findContours(img_vh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-    return contours
+    # Sort contours from top to bottom
+    contours, bounding_boxes = sort_contours(contours, method="top-to-bottom")
+
+    return contours, bounding_boxes
+
+
+def get_boxes(contours,img_w,img_h):
+    boxes = []
+    for c in contours:
+        # Get bounding box for contour
+        x, y, w, h = cv2.boundingRect(c)
+        print('x', x, 'y', y, 'width', w, 'height', h)
+        # Check if box not too big
+        if (w < 0.9*img_w and h < 0.9*img_h):
+            box_info = {'x': x, 'y': y, 'width': w, 'height': h}
+            boxes.append(box_info)
+    print(len(boxes))
+    return boxes
+
+
+
+def sort_boxes_by_row(boxes, avg_height):
+    rows_list = []
+    current_column = []
+    
+    for index in range(len(boxes)):
+        # Check first box
+        if index == 0:
+            current_column.append(boxes[index])
+            last_box = boxes[index]
+        else:
+            # Check if box in same row
+            if boxes[index]['y'] <= last_box['y'] + avg_height / 2:
+                current_column.append(boxes[index])
+                last_box = boxes[index]
+
+                if index == len(boxes) - 1:
+                    rows_list.append(current_column)
+            else:
+                # New row found
+                rows_list.append(current_column)
+                current_column = []
+                last_box = boxes[index]
+                current_column.append(boxes[index])
+    #print(rows_list)
+    #print(current_column)
+
+    return rows_list
+
+
+
+def arrange_boxes_in_order(row):
+    max_columns = 0
+    selected_index = 0
+    for i in range(len(row)):
+        current_length = len(row[i])
+        if current_length > max_columns:
+            max_columns = current_length
+            selected_index = i
+    #print("max columns ", max_columns)
+    # Find centers of columns
+    selected_row = row[selected_index]
+    centers = []
+    for j in range(len(selected_row)):
+        center = int(selected_row[j]['x'] + selected_row[j]['width'] / 2)
+        centers.append(center)
+
+    #print("centers ",centers)
+    centers = np.array(centers)
+    centers.sort()
+    #print("centers.sort() ", centers)
+    organized_boxes = []
+    for i in range(len(row)):
+        temp_list = []
+        for k in range(max_columns):
+            temp_list.append([])
+        for j in range(len(row[i])):
+            # Find column for box
+            distance = abs(centers - (row[i][j]['x'] + row[i][j]['width'] / 4))
+            min_distance = min(distance)
+            index = list(distance).index(min_distance)
+            temp_list[index].append(row[i][j])
+        organized_boxes.append(temp_list)
+
+    return organized_boxes
+

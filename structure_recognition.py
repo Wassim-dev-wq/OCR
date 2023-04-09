@@ -1,7 +1,8 @@
 import cv2
 import numpy as np
 from image_processing import (get_kernel_lengths, detect_lines,
-                                    combine_images, erode_dilate_images, get_contours_and_boxes,cv2_imshow)
+                                    combine_images, erode_dilate_images, get_contours_and_boxes,cv2_imshow,
+                                    get_boxes,sort_boxes_by_row,arrange_boxes_in_order)
 
 def recognize_structure(img):
     img_height, img_width = img.shape[:2]
@@ -25,14 +26,18 @@ def recognize_structure(img):
     cv2_imshow("Eroded and Dilated Images", erode_dilate_img)
 
     # Get contours and bounding boxes of detected lines
-    contours = get_contours_and_boxes(img_vh)
+    contours,bounding_boxes = get_contours_and_boxes(img_vh)
+    heights = [bounding_boxes[i][3] for i in range(len(bounding_boxes))]
 
-    # Get position (x,y), width and height for every contour and show the contour on image
-    print("lencontours", len(contours))
+    # Get mean of heights
+    avg_height = np.mean(heights)
 
-    # Show final result image
-    cv2_imshow("Final Result", img)
+    box = get_boxes(contours,img_width,img_height)
+    row = sort_boxes_by_row(box, avg_height)
+    final_boxes = arrange_boxes_in_order(row)
 
-    # Return processed image
-    return bitnot
+    return erode_dilate_img
+    #return final_boxes, erode_dilate_img
+
+
 

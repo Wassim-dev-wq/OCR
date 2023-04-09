@@ -6,8 +6,7 @@ This script is written in Python and uses the following libraries:
 - PyOCR
 - Pandas
 - PyTesseract
-
-The script performs Optical Character Recognition (OCR) on an image file and converts it into a text format. The text is then split by line and stored in a pandas dataframe. Finally, the dataframe is saved as a CSV file.
+- Numpy
 
 **How to create virtual environnement**
 1. Install virtualenv:
@@ -32,9 +31,6 @@ The script performs Optical Character Recognition (OCR) on an image file and con
     pip install pytesseract
     ```
     Note: Make sure that you have the latest version of pip installed by running pip install --upgrade pip before installing the libraries.
-
-
-
 
 
 2. Set the path to Tesseract OCR in the script. If you are using Windows, uncomment the line 

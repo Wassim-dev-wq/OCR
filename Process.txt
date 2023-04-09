@@ -7,9 +7,9 @@
     - Detect horizontal and vertical lines in the image. DONE
     - Combine the line-detected images. DONE
     - Erode and dilate the image to enhance the table structure. DONE
-    - Extract contours and bounding boxes of table cells. IN PROGRESS..
-    - Sort and organize the bounding boxes into rows and columns. IN PROGRESS..
-    - Return the final table structure and a processed image containing the table. IN PROGRESS..
+    - Extract contours and bounding boxes of table cells. DONE
+    - Sort and organize the bounding boxes into rows and columns. DONE
+    - Return the final table structure and a processed image containing the table. DONE
 
 3.Extract text from the table image:
     - Use Tesseract OCR to extract the text and layout information from the table image. IN PROGRESS..
