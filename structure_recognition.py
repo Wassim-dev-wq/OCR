@@ -36,8 +36,7 @@ def recognize_structure(img):
     row = sort_boxes_by_row(box, avg_height)
     final_boxes = arrange_boxes_in_order(row)
 
-    return erode_dilate_img
-    #return final_boxes, erode_dilate_img
+    return final_boxes, erode_dilate_img
 
 
 

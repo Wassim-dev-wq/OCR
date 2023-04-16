@@ -40,14 +40,14 @@ def detect_lines(img_bin_inv, kernel_len_ver, kernel_len_hor):
 
     # Erode and dilate the image to get vertical lines
     img_eroded_vertical  = cv2.erode(img_bin_inv, vertical_kernel,iterations=3)
-    vertical_lines = cv2.dilate(img_eroded_vertical, vertical_kernel, iterations=5)
+    vertical_lines = cv2.dilate(img_eroded_vertical, vertical_kernel, iterations=4)
 
     # Erode and dilate the image to get horizontal lines
-    img_eroded_horizontal  = cv2.erode(img_bin_inv, horizontal_kernel, iterations=2)
-    horizontal_lines = cv2.dilate(img_eroded_horizontal, horizontal_kernel, iterations=3)
+    img_eroded_horizontal  = cv2.erode(img_bin_inv, horizontal_kernel, iterations=3)
+    horizontal_lines = cv2.dilate(img_eroded_horizontal, horizontal_kernel, iterations=5)
 
     # Combine vertical and horizontal lines
-    img_vh = cv2.addWeighted(vertical_lines, 1, horizontal_lines, 1, 0.0)
+    img_vh = cv2.addWeighted(vertical_lines, 0.5, horizontal_lines, 0.5, 0.0)
 
     # Dilate the combined lines and apply thresholding
     img_vh = cv2.dilate(img_vh, kernel, iterations=2)

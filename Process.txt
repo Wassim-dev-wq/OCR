@@ -12,10 +12,12 @@
     - Return the final table structure and a processed image containing the table. DONE
 
 3.Extract text from the table image:
-    - Use Tesseract OCR to extract the text and layout information from the table image. IN PROGRESS..
+    - Use Tesseract OCR to extract the text and layout information from the table image. DONE
 
 4.Create a CSV file from the extracted text data:
-    - Reconstruct the table rows based on the extracted text and layout information. IN PROGRESS..
-    - Write the reconstructed table to a CSV file. IN PROGRESS..
+    - Reconstruct the table rows based on the extracted text and layout information. DONE
+    - Write the reconstructed table to a CSV file. DONE
 
-ESTIMATED RELEASE VERSION 11/04
+ESTIMATED RELEASE VERSION 11/04 DONE
+
+
