@@ -35,10 +35,7 @@ def process_cells(cells, img):
 
         dilated = cv2.dilate(resized, kernel, iterations=dilate_iter)
         eroded = cv2.erode(dilated, kernel, iterations=erode_iter)
-        #cv2_imshow("Cell Image", cell_img)
-
         eroded_rgb = cv2.cvtColor(eroded, cv2.COLOR_GRAY2RGB)
-        #cv2_imshow("Eroded", eroded_rgb)
         result = ocr.ocr(eroded_rgb)
         if not result: # If we got empty text
             return None
@@ -84,10 +81,6 @@ def extract_data_to_csv(finalboxes, img, app, table_index):
             futures = [executor.submit(process_cells, cell, img) for cell in row if cell]
             row_data = [f.result() for f in futures if f.result() is not None]
             extracted_data.append(row_data)
-    print("finalboxes:")
-    print(finalboxes)
-    print("extracted_data:")
-    print(extracted_data)
     dataframe = pd.DataFrame(extracted_data)
     styled_dataframe = dataframe.style.set_properties(align="left")
     output_filename_excel = f"output_{table_index}.xlsx"

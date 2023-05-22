@@ -21,8 +21,7 @@ def preprocess_image(image):
     gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
     # Apply adaptive thresholding
-    thresh_image = cv2.adaptiveThreshold(gray_image, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, 
-                                         cv2.THRESH_BINARY_INV, 11, 2)
+    thresh_image = cv2.adaptiveThreshold(gray_image, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 11, 2)
     return thresh_image
 
 # `get_kernel_lengths` is a function that takes the height and width of an image as input and
@@ -71,8 +70,6 @@ def detect_lines(img_bin_inv, kernel_len_ver, kernel_len_hor, iter_ver, iter_hor
     vertical_kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (1, kernel_len_ver))
     horizontal_kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (kernel_len_hor, 1))
     kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
-
-    # Remove small components based on some empirical size
     img_bin_inv = remove_small_components(img_bin_inv, 100)
 
     # gaussian blur
@@ -81,10 +78,8 @@ def detect_lines(img_bin_inv, kernel_len_ver, kernel_len_hor, iter_ver, iter_hor
     med_val = np.median(img_blur)
     lower = int(max(0, 0.7 * int(med_val)))
     upper = int(min(255, 1.3 * int(med_val)))
-
     #Canny edge detection
     edges = cv2.Canny(img_blur, lower, upper)
-
     # Dilate the edges
     dilated_edges = cv2.dilate(edges, kernel, iterations=1)
     # Detect lines on dilated edges
@@ -98,13 +93,9 @@ def detect_lines(img_bin_inv, kernel_len_ver, kernel_len_hor, iter_ver, iter_hor
     img_eroded_vertical = remove_small_components(img_eroded_horizontal, img_bin_inv.shape[1]/6)
 
     horizontal_lines = cv2.dilate(img_eroded_horizontal, horizontal_kernel, iterations=iter_hor)
-
     # Combine vertical and horizontal lines
     img_vh = cv2.addWeighted(vertical_lines, 0.5, horizontal_lines, 0.5, 0.0)
     img_vh = cv2.erode(~img_vh, kernel, iterations=2)
-
-    # Show the images
-    #cv2_imshow("edges", edges)
     cv2_save("edges", edges)        
     cv2_save("vertical_lines_dilate", vertical_lines)
     cv2_save("horizontal_lines_erode", img_eroded_horizontal)
@@ -132,22 +123,17 @@ def erode_dilate_images(img_median, img_h, img_w):
     # Create vertical and horizontal kernels
     vertical_kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (6, img_h * 2))
     horizontal_kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (img_w * 2, 1))
-
     # Erode the image using vertical and horizontal kernels
     vertical_lines_img = cv2.erode(img_median, vertical_kernel, iterations=1)
     horizontal_lines_img = cv2.erode(img_median, horizontal_kernel, iterations=1)
-
     # Combine vertical and horizontal lines
     combined_kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (2, 2))
-
     # Erode the combined lines and apply thresholding
     img_combined_lines = cv2.addWeighted(vertical_lines_img, 0.5, horizontal_lines_img, 0.5, 0.0)
     img_combined_lines_inverted = cv2.bitwise_not(img_combined_lines)
     img_combined_lines = cv2.erode(img_combined_lines_inverted, combined_kernel, iterations=2)
 
     _, img_combined_lines = cv2.threshold(img_combined_lines, 0, 255,cv2.THRESH_BINARY + cv2.THRESH_OTSU)
-
-    # Use bitwise XOR and NOT operations to get the final result
     bitwise_xor_result = cv2.bitwise_xor(img_median, img_combined_lines)
     #cv2_imshow("bitwise_xor_result ", bitwise_xor_result)
 
@@ -187,16 +173,10 @@ def sort_contours(cnts, method="left-to-right"):
 # also adds a border to the image to ensure that the edge columns are not missed during contour
 # detection.
 def get_contours_and_boxes(img_vh):
-    # Adding borders to the image to dont miss the edge columns
-
     contours, _ = cv2.findContours(img_vh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-    #print(f"contours: {contours}")
-
     # Sort contours from top to bottom
     contours, bounding_boxes = sort_contours(contours, method="top-to-bottom")
-    #print(f"bounding_boxes: {bounding_boxes}")
     print("len contours: ", len(contours)," len bounding_box ",len(bounding_boxes))
-    
     return contours, bounding_boxes
 
 
@@ -247,9 +227,6 @@ def sort_boxes_by_row(boxes, avg_height):
                 current_column = []
                 last_box = boxes[index]
                 current_column.append(boxes[index])
-    #print(rows_list)
-    #print(current_column)
-
     return rows_list
 
 
@@ -262,18 +239,14 @@ def arrange_boxes_in_order(row):
         if current_length > max_columns:
             max_columns = current_length
             selected_index = i
-    #print("max columns ", max_columns)
     # Find centers of columns
     selected_row =row[selected_index]
     centers = []
     for j in range(len(selected_row)):
         center = int(selected_row[j]['x'] + selected_row[j]['width'] / 2)
         centers.append(center)
-
-    #print("centers ",centers)
     centers = np.array(centers)
     centers.sort()
-    #print("centers.sort() ", centers)
     organized_boxes = []
     for i in range(len(row)):
         temp_list = []
@@ -286,6 +259,5 @@ def arrange_boxes_in_order(row):
             index = list(distance).index(min_distance)
             temp_list[index].append(row[i][j])
         organized_boxes.append(temp_list)
-
     return organized_boxes
 
