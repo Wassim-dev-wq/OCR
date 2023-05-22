@@ -199,11 +199,6 @@ def get_boxes(contours,img_w,img_h):
     return boxes
 
 
-
-# The above code is not a complete code snippet or function. It seems to be a function name or a
-# function definition. It suggests that there might be a function named `sort_boxes_by_row` in a
-# Python program that sorts boxes by row. However, without the actual implementation of the
-# function, it is not possible to determine what the function does exactly.
 def sort_boxes_by_row(boxes, avg_height):
     rows_list = []
     current_column = []
