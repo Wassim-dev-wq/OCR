@@ -47,23 +47,6 @@ def process_cells(cells, img):
     return text
 
 
-# `process_row` is a function that takes in a tuple of a row and an image, and processes each cell
-# in the row in parallel using the `process_cells` function. It returns a list of the extracted
-# text from each cell in the row.
-def process_row(args):
-    row , img = args
-    print("Next row")
-    row_data = []
-    for cell in row:
-        if cell:  # Check if cell is not empty
-            if len(cell) == 0:
-                row_data.append(' ')
-            else:
-                results = process_cells(cell, img)
-
-                row_data.append(' ')  # Append space if the cell is empty
-    return row_data
-
 
 
  # The `extract_data_to_csv` function takes in the finalboxes (a list of cells that make up a
