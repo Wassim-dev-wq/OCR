@@ -63,10 +63,17 @@ def process_row(args):
                 row_data.append(' ')
             else:
                 results = process_cells(cell, img)
+<<<<<<< HEAD
 
                 row_data.append(' ')  # Append space if the cell is empty
     return row_data
 
+=======
+
+                row_data.append(' ')  # Append space if the cell is empty
+    return row_data
+
+>>>>>>> 026547ef168c62cef2569e8c9a78dbfae4b0448f
 
 
  # The `extract_data_to_csv` function takes in the finalboxes (a list of cells that make up a
@@ -90,6 +97,7 @@ def extract_data_to_csv(finalboxes, img, app, table_index):
     print(extracted_data)
     dataframe = pd.DataFrame(extracted_data)
     styled_dataframe = dataframe.style.set_properties(align="left")
+<<<<<<< HEAD
     output_filename_excel = f"output_{table_index}.xlsx"
     output_filepath_excel = os.path.join(app.config['UPLOAD_FOLDER'], output_filename_excel)
     styled_dataframe.to_excel(output_filepath_excel)
@@ -99,4 +107,10 @@ def extract_data_to_csv(finalboxes, img, app, table_index):
     return output_filename_excel, output_filename_csv
 
 
+=======
+    output_filename = f"output_{table_index}.xlsx"
+    output_filepath = os.path.join(app.config['UPLOAD_FOLDER'], output_filename)
+    styled_dataframe.to_excel(output_filepath)
+    return output_filename
+>>>>>>> 026547ef168c62cef2569e8c9a78dbfae4b0448f
 
