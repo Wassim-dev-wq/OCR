@@ -20,4 +20,20 @@
 
 ESTIMATED RELEASE VERSION 11/04 DONE
 
-
+#Improvements : 
+Delating and erosing each cell depending on its size
+Adaptive iterations
+Propotional kernel size
+Noise Reduction after detecting the lines to avoid the erosion of characters by deleting the small lines, because usually they go from a tight one and get dilated 
+Using PaddleOcr to recognize the text from the cells for more accuracy
+Distortion
+Binarization
+Documentation
+Changing the way we detect the table from using detectron2 to using contours [NOT WORKING WELL, CANCELLED]
+Addnig multiprocessing to each row
+Adding multiprocessing to cells data extraction [Allow the children process to have another]
+Adding safety to data writing 
+Adding multiprocessing to table processing
+Adding pdf handling, Process : pdf -> images -> process_images
+Make the thresholding dynamic
+Modifying the crop of the image to make sure it always gets the borders being setted

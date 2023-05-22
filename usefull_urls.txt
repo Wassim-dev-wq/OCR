@@ -3,3 +3,5 @@ Masks : https://en.wikipedia.org/wiki/Mask_(computing)#Image_masks
 GrayScale : https://en.wikipedia.org/wiki/Grayscale*
 ThresHolding : https://en.wikipedia.org/wiki/Thresholding_(image_processing)
 Image processing OPENCV : https://docs.opencv.org/4.x/d2/d96/tutorial_py_table_of_contents_imgproc.html
+TableBankModel : https://github.com/doc-analysis/TableBank
+Hough Lines: https://docs.opencv.org/3.4/d9/db0/tutorial_hough_lines.html
