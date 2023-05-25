@@ -11,7 +11,7 @@ from threading import Lock
 lock = Lock()
 
 rec_model_path = 'OCR/model_final.pth'
-ocr = PaddleOCR(rec_model=rec_model_path, show_logs= False, use_gpu=True,lang='en',show_log = False,use_angle_cls = True)
+ocr = PaddleOCR(rec_model=rec_model_path, show_logs= False, lang='en',show_log = False,use_angle_cls = True)
 
 
 # `process_cells` is a function that takes in a list of cells and an image, and processes each
@@ -25,15 +25,13 @@ def process_cells(cells, img):
     for cell in cells:
         y, x, w, h = cell['x'], cell['y'], cell['width'], cell['height']
         cell_img = img[x:x + h, y:y + w]
-        scale_ratio = float(300) / float(min(cell_img.shape[:2]))
-        cell_img = remove_small_components(cell_img, min(cell_img.shape[:2])/10)
+        #scale_ratio = float(300) / float(min(cell_img.shape[:2]))
         kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (2, 1))
         border = cv2.copyMakeBorder(cell_img, 1, 1, 1, 1, cv2.BORDER_CONSTANT, value=[255, 255])
-        resized = cv2.resize(border, None, fx=scale_ratio, fy=scale_ratio, interpolation=cv2.INTER_CUBIC)
         dilate_iter = max(3, int((w * h) / 5000)) 
         erode_iter = max(2, int((w * h) / 7500)) 
 
-        dilated = cv2.dilate(resized, kernel, iterations=dilate_iter)
+        dilated = cv2.dilate(border, kernel, iterations=dilate_iter)
         eroded = cv2.erode(dilated, kernel, iterations=erode_iter)
         eroded_rgb = cv2.cvtColor(eroded, cv2.COLOR_GRAY2RGB)
         result = ocr.ocr(eroded_rgb)
@@ -45,24 +43,6 @@ def process_cells(cells, img):
                 extracted_text = word_info[-1][0]
                 text += " " + extracted_text
     return text
-
-
-# `process_row` is a function that takes in a tuple of a row and an image, and processes each cell
-# in the row in parallel using the `process_cells` function. It returns a list of the extracted
-# text from each cell in the row.
-def process_row(args):
-    row , img = args
-    print("Next row")
-    row_data = []
-    for cell in row:
-        if cell:  # Check if cell is not empty
-            if len(cell) == 0:
-                row_data.append(' ')
-            else:
-                results = process_cells(cell, img)
-
-                row_data.append(' ')  # Append space if the cell is empty
-    return row_data
 
 
 

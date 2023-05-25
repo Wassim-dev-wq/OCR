@@ -90,7 +90,7 @@ def detect_lines(img_bin_inv, kernel_len_ver, kernel_len_hor, iter_ver, iter_hor
     vertical_lines = cv2.dilate(img_eroded_vertical, vertical_kernel, iterations=iter_ver)
 
     img_eroded_horizontal = cv2.erode(dilated_edges, horizontal_kernel, iterations=iter_hor)
-    img_eroded_vertical = remove_small_components(img_eroded_horizontal, img_bin_inv.shape[1]/6)
+    img_eroded_horizontal = remove_small_components(img_eroded_horizontal, img_bin_inv.shape[1]/10)
 
     horizontal_lines = cv2.dilate(img_eroded_horizontal, horizontal_kernel, iterations=iter_hor)
     # Combine vertical and horizontal lines
