@@ -22,11 +22,6 @@ def process_cells(cells, img):
     for cell in cells:
         y, x, w, h = cell['x'], cell['y'], cell['width'], cell['height']
         cell_img = img[x:x + h, y:y + w]
-<<<<<<< HEAD
-        #scale_ratio = float(300) / float(min(cell_img.shape[:2]))
-=======
-        scale_ratio = float(300) / float(min(cell_img.shape[:2]))
->>>>>>> 8ac85790c06a6f922ae8bf2b91f646d775ff7e28
         kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (2, 1))
         border = cv2.copyMakeBorder(cell_img, 1, 1, 1, 1, cv2.BORDER_CONSTANT, value=[255, 255])
         dilate_iter = max(3, int((w * h) / 5000)) 
@@ -46,10 +41,6 @@ def process_cells(cells, img):
     return text
 
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 8ac85790c06a6f922ae8bf2b91f646d775ff7e28
 
  # The `extract_data_to_csv` function takes in the finalboxes (a list of cells that make up a
 # table), the image of the table, the Flask app object, and the table index. It then uses a
