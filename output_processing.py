@@ -26,7 +26,6 @@ def process_cells(cells, img):
         y, x, w, h = cell['x'], cell['y'], cell['width'], cell['height']
         cell_img = img[x:x + h, y:y + w]
         scale_ratio = float(300) / float(min(cell_img.shape[:2]))
-        cell_img = remove_small_components(cell_img, min(cell_img.shape[:2])/10)
         kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (2, 1))
         border = cv2.copyMakeBorder(cell_img, 1, 1, 1, 1, cv2.BORDER_CONSTANT, value=[255, 255])
         resized = cv2.resize(border, None, fx=scale_ratio, fy=scale_ratio, interpolation=cv2.INTER_CUBIC)
@@ -39,7 +38,7 @@ def process_cells(cells, img):
         result = ocr.ocr(eroded_rgb)
         if not result: # If we got empty text
             return None
-        cv2.imwrite(f"image_process/cells/{x+y+w}.jpg",eroded_rgb)
+        #cv2.imwrite(f"image_process/cells/{x+y+w}.jpg",eroded_rgb)
         for line in result:
             for word_info in line:
                 extracted_text = word_info[-1][0]
