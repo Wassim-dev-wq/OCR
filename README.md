@@ -8,3 +8,7 @@ Pour exécuter le projet :
    
     bash script.sh
     
+  Et aprés : 
+  
+    python app.py
+    
