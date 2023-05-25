@@ -4,11 +4,8 @@ import pandas as pd
 from image_processing import cv2_imshow,remove_small_components
 import os
 from paddleocr import PaddleOCR
-from multiprocessing import Pool
 from concurrent.futures import ProcessPoolExecutor
-from threading import Lock
 
-lock = Lock()
 
 rec_model_path = 'OCR/model_final.pth'
 ocr = PaddleOCR(rec_model=rec_model_path, show_logs= False, use_gpu=True,lang='en',show_log = False,use_angle_cls = True)
