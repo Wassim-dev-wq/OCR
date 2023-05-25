@@ -90,7 +90,11 @@ def detect_lines(img_bin_inv, kernel_len_ver, kernel_len_hor, iter_ver, iter_hor
     vertical_lines = cv2.dilate(img_eroded_vertical, vertical_kernel, iterations=iter_ver)
 
     img_eroded_horizontal = cv2.erode(dilated_edges, horizontal_kernel, iterations=iter_hor)
+<<<<<<< HEAD
     img_eroded_horizontal = remove_small_components(img_eroded_horizontal, img_bin_inv.shape[1]/10)
+=======
+    img_eroded_horizontal = remove_small_components(img_eroded_horizontal, img_bin_inv.shape[1]/6)
+>>>>>>> 8ac85790c06a6f922ae8bf2b91f646d775ff7e28
 
     horizontal_lines = cv2.dilate(img_eroded_horizontal, horizontal_kernel, iterations=iter_hor)
     # Combine vertical and horizontal lines
@@ -199,11 +203,6 @@ def get_boxes(contours,img_w,img_h):
     return boxes
 
 
-
-# The above code is not a complete code snippet or function. It seems to be a function name or a
-# function definition. It suggests that there might be a function named `sort_boxes_by_row` in a
-# Python program that sorts boxes by row. However, without the actual implementation of the
-# function, it is not possible to determine what the function does exactly.
 def sort_boxes_by_row(boxes, avg_height):
     rows_list = []
     current_column = []

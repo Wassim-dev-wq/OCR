@@ -4,11 +4,8 @@ import pandas as pd
 from image_processing import cv2_imshow,remove_small_components
 import os
 from paddleocr import PaddleOCR
-from multiprocessing import Pool
 from concurrent.futures import ProcessPoolExecutor
-from threading import Lock
 
-lock = Lock()
 
 rec_model_path = 'OCR/model_final.pth'
 ocr = PaddleOCR(rec_model=rec_model_path, show_logs= False, lang='en',show_log = False,use_angle_cls = True)
@@ -25,7 +22,11 @@ def process_cells(cells, img):
     for cell in cells:
         y, x, w, h = cell['x'], cell['y'], cell['width'], cell['height']
         cell_img = img[x:x + h, y:y + w]
+<<<<<<< HEAD
         #scale_ratio = float(300) / float(min(cell_img.shape[:2]))
+=======
+        scale_ratio = float(300) / float(min(cell_img.shape[:2]))
+>>>>>>> 8ac85790c06a6f922ae8bf2b91f646d775ff7e28
         kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (2, 1))
         border = cv2.copyMakeBorder(cell_img, 1, 1, 1, 1, cv2.BORDER_CONSTANT, value=[255, 255])
         dilate_iter = max(3, int((w * h) / 5000)) 
@@ -37,7 +38,7 @@ def process_cells(cells, img):
         result = ocr.ocr(eroded_rgb)
         if not result: # If we got empty text
             return None
-        cv2.imwrite(f"image_process/cells/{x+y+w}.jpg",eroded_rgb)
+        #cv2.imwrite(f"image_process/cells/{x+y+w}.jpg",eroded_rgb)
         for line in result:
             for word_info in line:
                 extracted_text = word_info[-1][0]
@@ -45,6 +46,10 @@ def process_cells(cells, img):
     return text
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8ac85790c06a6f922ae8bf2b91f646d775ff7e28
 
  # The `extract_data_to_csv` function takes in the finalboxes (a list of cells that make up a
 # table), the image of the table, the Flask app object, and the table index. It then uses a
